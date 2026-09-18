@@ -1,0 +1,35 @@
+# Render Infrastructure Blueprint Configuration
+# Deploy Backend API & Frontend Static Site to Render Cloud
+
+services:
+  # -------------------------------------------------------------
+  # 1. Express.js Backend Web Service
+  # -------------------------------------------------------------
+  - type: web
+    name: ecommerces-backend
+    runtime: node
+    plan: free
+    rootDir: backend
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: PORT
+        value: 10000
+      - key: NODE_ENV
+        value: production
+      - key: MONGO_URI
+        sync: false # Paste your MongoDB Atlas connection string in Render Dashboard
+
+  # -------------------------------------------------------------
+  # 2. React.js Frontend Static Site
+  # -------------------------------------------------------------
+  - type: web
+    name: ecommerces-frontend
+    runtime: static
+    plan: free
+    rootDir: frontend
+    buildCommand: npm install && npx vite build
+    staticPublishPath: dist
+    envVars:
+      - key: VITE_API_BASE_URL
+        sync: false # Set to https://ecommerces-backend.onrender.com/api in Render Dashboard
