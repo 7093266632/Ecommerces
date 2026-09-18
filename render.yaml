@@ -7,7 +7,7 @@ services:
   # -------------------------------------------------------------
   - type: web
     name: ecommerces-backend
-    runtime: node
+    env: node
     plan: free
     rootDir: backend
     buildCommand: npm install
@@ -23,8 +23,9 @@ services:
   # -------------------------------------------------------------
   # 2. React.js Frontend Static Site
   # -------------------------------------------------------------
-  - type: static
+  - type: web
     name: ecommerces-frontend
+    env: static
     rootDir: frontend
     buildCommand: npm install && npx vite build
     staticPublishPath: ./dist
